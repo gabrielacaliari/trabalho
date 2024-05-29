@@ -1,0 +1,6 @@
+input.custom-input {
+  font-family: 'Bouncy-Thin-PERSONAL_USE_ONLY.otf', sans-serif; /* Define a fonte para os inputs */
+  padding: 5px;
+  border: 1px solid #E91E63;
+  border-radius: 3px;
+}

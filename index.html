@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Newton's Work Calculation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(255, 255, 250); /* Cor de fundo do corpo */
+        position: relative;
+      }
+      .input-container {
+        margin: 10px 0;
+      }
+      input[type="text"], input[type="number"] {
+        font-family: 'Bouncy-Thin-PERSONAL_USE_ONLY.otf', sans-serif; /* Define a fonte para os inputs */
+        padding: 5px;
+        border: 2px solid #9E9E9E;
+        border-radius: 10px;
+      }
+      /* Estilo do botão */
+      button {
+        background-color: #E91E63; /* Cor rosa para o botão */
+        border: none;
+        color: white; 
+        padding: 10px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px; /* Tamanho da fonte */
+        margin: 30px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .result-balloon {
+        position: absolute;
+        top: 200px; /* Posição vertical */
+        right: 100px; /* Posição horizontal */
+        background-color: #E91E63; /* Cor rosa para o balão */
+        color: white; /* Cor do texto */
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 200px; /* Largura máxima do balão */
+        word-wrap: break-word; /* Quebra de texto automática */
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      let forceInput, distanceInput, angleInput, calcButton;
+      let imagem;
+      let customFont;
+
+      function setup() {
+        createCanvas(1000, 300);
+        textAlign(CENTER, CENTER);
+        noLoop();
+        createP('Digite a força aplicada (N):').class('input-container');
+        forceInput = createInput();
+        createP('Digite a distância (m):').class('input-container');
+        distanceInput = createInput();
+        createP('Digite o ângulo de inclinação (graus):').class('input-container');
+        angleInput = createInput();
+        angleInput.attribute('type', 'number'); // Define o tipo de input como número
+
+        // Botão
+        calcButton = createButton('Calcular Trabalho');
+        calcButton.mousePressed(calculateWork);
+        calcButton.class('custom-button');
+      }
+
+      function preload(){
+        imagem = loadImage("coelho.png");
+        customFont = loadFont('Bouncy-Thin-PERSONAL_USE_ONLY.otf');
+      }
+      
+      function draw() {
+        background("rgb(255,255,250)");
+        image(imagem, 400, 0, 250, 470);
+        let frase = "PERGUNTE O TRABALHO PARA O PIG E O BIGO";
+        textSize (32);
+        textAlign (CENTER,CENTER);
+        fill("#E91E63");
+        textFont(customFont);
+        text(frase, 500, 40); // Ajuste a coordenada Y para 40
+      }
+
+      function calculateWork() {
+        let F = parseFloat(forceInput.value());
+        let d = parseFloat(distanceInput.value());
+        let theta = parseFloat(angleInput.value());
+
+        if (isNaN(F) || isNaN(d) || isNaN(theta)) {
+          alert('Por favor, insira valores válidos.');
+          return;
+        }
+
+        let thetaRad = radians(theta);
+        let work = F * d * cos(thetaRad);
+        
+        showResultBalloon(`O trabalho realizado é: ${work.toFixed(2)} Joules`);
+      }
+
+      function showResultBalloon(message) {
+        // Cria um novo elemento para o balão de resposta
+        let balloon = createDiv(message);
+        balloon.class('result-balloon');
+        // Remove o balão após 5 segundos
+        setTimeout(() => {
+          balloon.remove();
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>
